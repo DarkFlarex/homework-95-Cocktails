@@ -3,8 +3,9 @@ import { Avatar, Button, Grid, Typography } from '@mui/material';
 import { User } from '../../types';
 import { logout } from '../../features/users/usersThunks';
 import { useAppDispatch } from '../../app/hooks';
-import {  useNavigate } from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import { API_URL } from '../../constants';
+import {fetchCocktails} from "../../features/Cocktails/cocktailsThunks";
 
 interface Props {
     user: User;
@@ -16,6 +17,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
     const handleLogout = async () => {
         await dispatch(logout());
+        await dispatch(fetchCocktails()).unwrap();
         navigate('/');
     };
 
@@ -34,8 +36,18 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             </Grid>
             <Grid item>
                 <Typography color="inherit">
-                    Hello, {user.displayName ? user.displayName : user.username}!
+                    Hello, {user.displayName ? user.displayName : user.email}!
                 </Typography>
+            </Grid>
+            <Grid item>
+                <Button component={NavLink} to="/my_cocktails" color="inherit">
+                    My cocktails
+                </Button>
+            </Grid>
+            <Grid item>
+                <Button component={NavLink} to="/cocktails/new" color="inherit">
+                    Add new Cocktail
+                </Button>
             </Grid>
             <Grid item>
                 <Button onClick={handleLogout} color="inherit">

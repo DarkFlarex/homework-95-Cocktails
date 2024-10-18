@@ -5,9 +5,10 @@ interface Props {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   name: string;
   label: string;
+  errorText?: string;
 }
 
-const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
+const FileInput: React.FC<Props> = ({ onChange, name, label, errorText }) => {
   const [filename, setFilename] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -23,24 +24,36 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
     } else {
       setFilename('');
     }
-
     onChange(e);
   };
 
   return (
-    <>
-      <input type="file" name={name} style={{ display: 'none' }} ref={inputRef} onChange={onFileChange} />
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs>
-          <TextField label={label} InputProps={{ readOnly: true }} value={filename} onClick={activateInput} />
+      <>
+        <input
+            type="file"
+            name={name}
+            style={{ display: 'none' }}
+            ref={inputRef}
+            onChange={onFileChange}
+        />
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs>
+            <TextField
+                label={label}
+                InputProps={{ readOnly: true }}
+                value={filename}
+                onClick={activateInput}
+                error={Boolean(errorText)}
+                helperText={errorText}
+            />
+          </Grid>
+          <Grid item>
+            <Button variant="outlined" onClick={activateInput}>
+              Browse
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Button variant="outlined" onClick={activateInput}>
-            Browse
-          </Button>
-        </Grid>
-      </Grid>
-    </>
+      </>
   );
 };
 

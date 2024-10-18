@@ -17,7 +17,7 @@ const Register = () => {
         email: '',
         password: '',
         displayName: '',
-        avatar: null,
+        avatar: '',
     });
 
     const getFieldError = (fieldName: string) => {
@@ -112,6 +112,7 @@ const Register = () => {
                             label="Avatar"
                             name="avatar"
                             onChange={fileInputChangeHandler}
+                            errorText={getFieldError('avatar')}
                         />
                     </Grid>
                 </Grid>
